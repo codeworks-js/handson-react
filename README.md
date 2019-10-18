@@ -3,7 +3,7 @@
 Do this hands on if you want to learn React basis.
 To do it, you must have basic knowledge in javascript, html and css.
 
-If you have any question, you may look at the [official react doc](https://fr.reactjs.org/docs/getting-started.html).
+If you have any question, you may look at the [official React doc](https://en.reactjs.org/docs/getting-started.html).
 
 You may use the basic code here to begin your app.
 
@@ -102,3 +102,41 @@ To use a component, you must import it and then use it like an html tag. You may
     )
   }
 ```
+
+#### Test it
+
+In your tests, you can import the component and test its methods and construction directly. You can also find a dedicated [doc](https://fr.reactjs.org/docs/testing.html) on React official website.
+
+### Grid component
+
+This component will create the 9x9 grid and contain the logic for checking a line, a column or a 3x3 grid. To do that, we must change our Input component so that the Grid component will receive the value of the Input and manage it.
+
+To communicate between components, Grid will pass to the Inputs a prop that is a js method. That prop will be called in the Input component when a change occurs. that method will change the Grid state and check if everything is valid.
+
+```jsx
+// Grid
+  changeValue(value) {
+    // setState
+    // call check of column, line and grid
+  }
+
+  render() {
+    return (
+      <Input onChange={() => changeValue}></Input>
+    )
+  }
+
+// Input
+  handleChange(event) {
+    // Checking value and setting state accordingly
+    this.props.onChange(event.target.value)
+  }
+
+  render() {
+    return (
+      <input onChange={() => handleChange}></input>
+    )
+  }
+```
+
+When an Input is on an invalid line, column or grid, we want to set it to invalid state. To do that, we need to change the invalid data from a state one to a prop one.
