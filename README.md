@@ -140,3 +140,91 @@ To communicate between components, Grid will pass to the Inputs a prop that is a
 ```
 
 When an Input is on an invalid line, column or grid, we want to set it to invalid state. To do that, we need to change the invalid data from a state one to a prop one.
+
+## Redux
+
+Imagine we want to display the state of the game in another component. We would have to move all the logic in an englobing component and change all the state into props (maybe not all, but mostly).
+
+To answer that problem there are some solutions, mainly Redux
+
+### How to install it
+
+Just use `npm install --save redux` to install it on your environment. You're now ready to use it.
+
+### Usage
+
+Redux is a state manager. In it, there's a JSON that you update through `actions`. An action does something on the `state` (the JSON). To register the actions on a part of the state, you use a `reducer`.
+
+A `reducer` is a function that returns a part of the state modified by its actions.
+
+A reducer describes a part of the `store`, which is still a JSON.
+
+That's a lot of vocabulary, so to put it simply :
+
+```javascript
+// This is the reducer
+function counter(state = 0, action) {
+  switch (action.type) {
+    // This is an action
+    case 'INCREMENT':
+      return state + 1
+    // This is another action
+    case 'DECREMENT':
+      return state - 1
+    default:
+      return state
+  }
+}
+
+// The creation of the store
+const store = createStore(counter)
+```
+
+This permits to separate your `store` into little `states` with their `actions`.
+
+```javascript
+// We keep the function counter
+function visibility (state = true, action) {
+  switch(action.type) {
+    case 'SHOW':
+      return true;
+    case 'HIDE':
+      return false;
+    default:
+      return state
+  }
+}
+
+function appStore(state={}, action) {
+  return {
+    counter: counter(state.counter, action),
+    visibility: visibility(state.visibility, action)
+  }
+}
+
+const store = createStore(appStore)
+```
+
+### Usage with React
+
+You must install another dependency : `npm install --save react-redux`.
+
+We'll use the function `connect()` to connect our components to the state and actions.
+
+This function takes 2 parameters : a `mapStateToProps` and a `mapDispatchToProps`. They are functions that work like this :
+
+```javascript
+const mapStateToProps = state => {
+  return {
+    counter: state.counter
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onIncrement: () => {
+      dispatch(counter)
+    }
+  }
+}
+```
