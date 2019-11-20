@@ -223,7 +223,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     onIncrement: () => {
-      dispatch(counter)
+      dispatch({type: 'INCREMENT'})
     }
   }
 }
