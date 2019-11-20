@@ -228,3 +228,17 @@ const mapDispatchToProps = dispatch => {
   }
 }
 ```
+
+`onIncrement` and `counter` will be available as `props` in the connected component
+
+```jsx
+class YourComponent extends React.Component {
+  render() {
+    return (
+      <div onClick={this.props.onIncrement}>{this.props.counter}</div>
+    )
+  }
+}
+
+connect(mapStateToProps, mapDispatchToProps)(YourComponent)
+```
