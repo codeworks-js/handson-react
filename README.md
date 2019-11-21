@@ -183,7 +183,7 @@ const store = createStore(counter)
 This permits to separate your `store` into little `states` with their `actions`.
 
 ```javascript
-// We keep the function counter
+// We keep the reducer 'counter'
 function visibility (state = true, action) {
   switch(action.type) {
     case 'SHOW':
@@ -242,3 +242,36 @@ class YourComponent extends React.Component {
 
 connect(mapStateToProps, mapDispatchToProps)(YourComponent)
 ```
+
+To initiate the store and link it to your app, you must use `Provider` :
+
+```jsx
+const store = createStore(yourStore)
+
+render(
+  <Provider store={store}>
+    <APP />
+  </Provider>,
+  document.getElementById('root')
+)
+```
+
+### Sudoku with Redux
+
+The state of our store can look like this :
+
+```js
+const state = {
+  sudoku: [
+    [
+      {value: null, isInvalid: false}, // x9
+      // ...
+    ], // x9
+    // ...
+  ]
+}
+```
+
+And our main action can be `{action: 'PLAY', payload: {x: 0, y: 0}}`
+
+The reducer responsible for this action will check the sudoku in its entirety and update the value of the corresponding number and the status of the line, column and square. To make your code clearer, you may use methods in other files.
